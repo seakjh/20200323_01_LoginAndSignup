@@ -85,4 +85,67 @@ public class ServerUtil {
         });
 
     }
+
+//    회원가입
+    //    파라미터의 기본구조 : 어떤 화면에서? 어떤 응답처리를할지? 변수로.
+//    파라미터 추가 : 서버로 전달할때 필요한 데이터들을 변수로.
+    public static void putRequestSignUp(Context context, String id, String pw, String name, String phoneNum, final JsonResponseHandler handler){
+
+//        클라이언트 역할 수행 변수 생성.
+        OkHttpClient client = new OkHttpClient();
+
+//        어느 주소(호스트주소/기능주소)로 갈지? 변수로 저장.
+//        192.?.?.?:5000/auth
+
+//        기능주소만 변경
+        String urlstr = String.format("%s/auth", BASE_URL);
+
+//        서버로 들고갈 파라미터를 담아줘야함
+//        어떤 데이터를 담아야하는지? API 명세 참조
+        FormBody formData = new FormBody.Builder()
+                .add("login_id", id)
+                .add("password", pw)
+                .add("name", name)
+                .add("phone", phoneNum)
+                .build();
+
+//        어떤 메소드를 쓰는지?
+        Request request = new Request.Builder()
+                .url(urlstr)
+                .put(formData)
+                .build();
+//                필요한 경우 헤더도 여기에 추가해야함
+
+//        건드릴 필요없음
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                연결 실패 처리
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                연결 성공해서 응답이 돌아왔을때 => string()으로 변환.
+                String body = response.body().string();
+                Log.d("로그인응답", body);
+
+//                응답을 내용을 JSON객체로 가공.
+                try {
+//                    body의 String을 => JSONObject 형태로 변환
+//                    양식에 맞지 않는 내용이면, 맵이 터질수 있으니
+//                    try/catch로 감싸도록 처리
+                    JSONObject json = new JSONObject(body);
+
+                    if (handler != null ) {
+                        handler.onResponse(json);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
 }
