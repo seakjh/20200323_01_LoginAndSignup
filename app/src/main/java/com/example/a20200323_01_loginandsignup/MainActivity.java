@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.a20200323_01_loginandsignup.databinding.ActivityMainBinding;
+import com.example.a20200323_01_loginandsignup.datas.User;
 import com.example.a20200323_01_loginandsignup.utils.ContextUtil;
 import com.example.a20200323_01_loginandsignup.utils.ServerUtil;
 
@@ -105,13 +106,15 @@ public class MainActivity extends BaseActivity {
                                 String token = data.getString("token");
 
 //                                로그인한 사람의 이름/폰번 토스트로 띄워봄
-                                final String name = user.getString("name");
-                                final String phone = user.getString("phone");
+//                                final String name = user.getString("name");
+//                                final String phone = user.getString("phone");
+
+                                final User loginUser = User.getUserFromJson(user);
 
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(mContext, String.format("%s / %s", name, phone), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, String.format("%s / %s", loginUser.getName(), loginUser.getPhone()), Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
