@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 String inputEmail = binding.emailEdt.getText().toString();
 
-                ContextUtil.getEmail(mContext);
+                ContextUtil.setEmail(mContext, inputEmail);
             }
         });
 
