@@ -35,13 +35,13 @@ public class MainActivity extends BaseActivity {
 
                 Log.d("체크여부", isChecked+"");
 
-//                Contextㅕ
+//                ContextUtil을 이용해서, 체크 여부를 저장.
                 ContextUtil.setIdCheck(mContext, isChecked);
 
             }
         });
 
-//        로그인 버튼을 누르면 => 입력되어있는 이메일 저장
+//        로그인 버튼을 누르면 => 아이디 저장이 체크되어 있다면
 //        ->입력 되어있는 이메일 저장
 //        그렇지 않다면 -> 이메일을 빈칸 ""으로 저장
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
