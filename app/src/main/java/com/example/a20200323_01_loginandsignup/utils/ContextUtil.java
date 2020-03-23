@@ -50,10 +50,10 @@ public class ContextUtil {
 
     public static void setUserToken(Context context, String token){
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-        pref.edit().putString(USER_TOKEN, token);
+        pref.edit().putString(USER_TOKEN, token).apply();
     }
 
-    public static String getUserToken(Context context, String token){
+    public static String getUserToken(Context context){
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         return pref.getString(USER_TOKEN, "");
     }
