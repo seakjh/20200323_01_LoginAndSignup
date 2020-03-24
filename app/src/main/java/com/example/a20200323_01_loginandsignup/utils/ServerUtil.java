@@ -209,7 +209,7 @@ public class ServerUtil {
 //        => URL을 가공하면? 파라미터가 첨부된다.
 
 //        뼈대가 되는 주소 가공 변수 : 호스트 주소 / 기능주소 연결해서 생성
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(String.format("%s/my_info", BASE_URL)).newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(String.format("%s/black_list", BASE_URL)).newBuilder();
 //        urlBuilder.addEncodedQueryParameter("파라미터이름", "값");
 //        GET에서 query에 파라미터를 요구하면 윗 줄처럼 담아주자.
 

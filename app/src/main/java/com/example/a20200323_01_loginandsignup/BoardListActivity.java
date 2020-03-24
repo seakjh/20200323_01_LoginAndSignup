@@ -27,5 +27,7 @@ public class BoardListActivity extends BaseActivity {
     @Override
     public void setValues() {
 
+
+
     }
 }
