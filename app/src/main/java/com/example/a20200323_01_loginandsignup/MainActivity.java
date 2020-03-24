@@ -37,14 +37,19 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+//                얼럿으로 "정말 로그아웃 하시겠습니까?" 확인받자.
                 AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
                 alert.setMessage("정말 로그아웃 하시겠습니까?");
                 alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+//                        로그아웃 처리
+//                        저장된 토큰을 => 날려버림.
                         ContextUtil.setUserToken(mContext, "");
+//                        로그인 액티비티를 띄우자.
                         Intent intent = new Intent(mContext, LoginActivity.class);
                         startActivity(intent);
+//                        메인액티비티 종료.
 
                         finish();
                     }
