@@ -201,6 +201,58 @@ public class ServerUtil {
 
     }
 
+    public static void getRequestBlackList(Context context, final JsonResponseHandler handler){
+
+        OkHttpClient client = new OkHttpClient();
+
+//        GET - 파라미터를 query에 담는다. => URL에 노출된다.
+//        => URL을 가공하면? 파라미터가 첨부된다.
+
+//        뼈대가 되는 주소 가공 변수 : 호스트 주소 / 기능주소 연결해서 생성
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(String.format("%s/my_info", BASE_URL)).newBuilder();
+//        urlBuilder.addEncodedQueryParameter("파라미터이름", "값");
+//        GET에서 query에 파라미터를 요구하면 윗 줄처럼 담아주자.
+
+//        파라미터들이 첨부된 urlBuilder를 이용해 스트링으로 변환
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Http-Token", ContextUtil.getUserToken(context))
+                .build(); // GET의 경우에는 메쏘드 지정 필요 없다. (제일 기본이라)
+
+        //        건드릴 필요없음
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                연결 실패 처리
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                연결 성공해서 응답이 돌아왔을때 => string()으로 변환.
+                String body = response.body().string();
+                Log.d("로그인응답", body);
+
+//                응답을 내용을 JSON객체로 가공.
+                try {
+//                    body의 String을 => JSONObject 형태로 변환
+//                    양식에 맞지 않는 내용이면, 맵이 터질수 있으니
+//                    try/catch로 감싸도록 처리
+                    JSONObject json = new JSONObject(body);
+
+                    if (handler != null ) {
+                        handler.onResponse(json);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
     public static void getRequestUserList(Context context, String active, final JsonResponseHandler handler){
 
         OkHttpClient client = new OkHttpClient();
