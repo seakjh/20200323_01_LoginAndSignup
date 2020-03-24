@@ -31,7 +31,7 @@ public class Black implements Serializable {
         try {
 //            기본적인 파싱
             black.id = json.getInt("id");
-            black.phoneNum = json.getString("phoneNum");
+            black.phoneNum = json.getString("phone_num");
             black.title = json.getString("title");
             black.content = json.getString("content");
 

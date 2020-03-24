@@ -44,9 +44,18 @@ public class BoardListActivity extends BaseActivity {
             public void onResponse(JSONObject json) {
                 try {
                     int code = json.getInt("code");
+
                     if (code == 200) {
+
+//                        기존에 불러둔 게시글을 모두 삭제. => 새로 불러오기
+//                        blacks에 들어있는 객체를 모두 삭제.
+
+                        blacks.clear();
+
                         JSONObject data = json.getJSONObject("data");
+
                         JSONArray blackLists  = data.getJSONArray("black_lists");
+
                         for (int i=0; i < blackLists.length() ; i++) {
                             JSONObject bl = blackLists.getJSONObject(i);
                             Black blackPost = Black.getBlackFromJson(bl);
