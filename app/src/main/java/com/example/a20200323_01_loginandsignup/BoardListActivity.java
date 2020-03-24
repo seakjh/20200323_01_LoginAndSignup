@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.a20200323_01_loginandsignup.adapters.BlackAdapter;
 import com.example.a20200323_01_loginandsignup.databinding.ActivityBoardListBinding;
 import com.example.a20200323_01_loginandsignup.datas.Black;
 import com.example.a20200323_01_loginandsignup.utils.ServerUtil;
@@ -20,6 +21,7 @@ import java.util.List;
 public class BoardListActivity extends BaseActivity {
 
     List<Black> blacks = new ArrayList<>();
+    BlackAdapter blackAdapter = null;
 
     ActivityBoardListBinding binding = null;
 
@@ -38,6 +40,9 @@ public class BoardListActivity extends BaseActivity {
 
     @Override
     public void setValues() {
+
+        blackAdapter = new BlackAdapter(mContext, R.layout.black_list_item, blacks);
+        binding.postListView.setAdapter(blackAdapter);
 
         ServerUtil.getRequestBlackList(mContext, new ServerUtil.JsonResponseHandler() {
             @Override
@@ -61,7 +66,12 @@ public class BoardListActivity extends BaseActivity {
                             blacks.add(blackPost);
                         }
 //                        모두 담긴 게시글들 => 어댑터가 새로고침.
-
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                blackAdapter.notifyDataSetChanged();
+                            }
+                        });
                     }
 
                 } catch (JSONException e) {
